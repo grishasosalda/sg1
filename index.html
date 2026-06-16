@@ -3,242 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SG1 - Pulse Edition</title>
+    <title>SG1 - Transcend Edition</title>
     
-    <!-- Подключаем стильный шрифт Montserrat -->
+    <!-- Подключаем современные шрифты: Outfit для заголовков и Montserrat для текста -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,800;1,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Outfit:wght@300;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #07050a;
-            --text-color: #e2d8ee;
-            /* Фирменный градиент в стиле PulseVisual */
-            --accent-gradient: linear-gradient(135deg, #d946ef, #8b5cf6);
-            --accent-color: #d946ef;
-            --panel-bg: rgba(15, 10, 22, 0.75);
-            --border-color: rgba(217, 70, 239, 0.25);
+            --bg-color: #030008;
+            --text-main: #f8f8f8;
+            --text-muted: #a39bb8;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #d946ef;
+            --glass-bg: rgba(20, 12, 35, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glow-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.2);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
         }
 
         body, html {
             width: 100%;
-            min-height: 100%;
+            min-height: 100vh;
             background-color: var(--bg-color);
-            /* Красивый темный фон Майнкрафта с градиентным затемнением */
-            background-image: linear-gradient(rgba(7, 5, 10, 0.85), rgba(15, 10, 22, 0.95)), url('https://images.unsplash.com/photo-1607513837920-0fc35b5a79bb?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-color);
             padding: 20px;
         }
 
-        /* --- ГЛАВНАЯ ПАНЕЛЬ --- */
+        /* --- АНИМИРОВАННЫЙ НЕОНОВЫЙ ФОН --- */
+        .ambient-background {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            background: #030008;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .orb-1 {
+            width: 50vw; height: 50vw;
+            background: var(--accent-primary);
+            top: -10%; left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 40vw; height: 40vw;
+            background: var(--accent-secondary);
+            bottom: -10%; right: -10%;
+            animation-delay: -5s;
+        }
+        
+        .orb-3 {
+            width: 30vw; height: 30vw;
+            background: #4f46e5;
+            top: 40%; left: 40%;
+            animation-delay: -10s;
+            opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(10vw, 10vh) scale(1.2); }
+        }
+
+        /* --- ФОНОВЫЙ ОГРОМНЫЙ ТЕКСТ (Как на референсе) --- */
+        .bg-text {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 25vw;
+            color: rgba(255, 255, 255, 0.02);
+            white-space: nowrap;
+            z-index: -1;
+            pointer-events: none;
+            letter-spacing: -0.05em;
+        }
+
+        /* --- ГЛАВНАЯ ПАНЕЛЬ (GLASSMORPHISM) --- */
         .container {
-            text-align: center;
-            background: var(--panel-bg);
-            padding: 3rem 3.5rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(217, 70, 239, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--border-color);
-            max-width: 520px;
-            width: 100%;
             position: relative;
+            z-index: 10;
+            text-align: center;
+            background: var(--glass-bg);
+            padding: 3.5rem 3rem;
+            border-radius: 24px;
+            box-shadow: var(--glow-shadow), inset 0 0 0 1px var(--glass-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            max-width: 480px;
+            width: 100%;
         }
 
         h1 {
+            font-family: 'Outfit', sans-serif;
             font-size: 3rem;
-            font-weight: 800;
-            font-style: italic;
+            font-weight: 900;
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #fff;
         }
 
         .gradient-text {
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, #fff, #a39bb8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 25px rgba(217, 70, 239, 0.5);
         }
 
         p.subtitle {
-            font-size: 1rem;
-            color: #a79fc4;
-            margin-bottom: 1.5rem; 
-            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem; 
+            font-weight: 400;
+            letter-spacing: 0.5px;
         }
 
         /* --- ПЛАШКА ELY.BY --- */
         .auth-notice {
-            background: rgba(217, 70, 239, 0.1);
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.85rem;
             margin-bottom: 2rem;
             display: inline-block;
-            box-shadow: 0 0 15px rgba(217, 70, 239, 0.1);
         }
         
         .auth-notice b {
-            color: var(--accent-color);
-            text-shadow: 0 0 8px rgba(217, 70, 239, 0.4);
+            color: #fff;
+            font-weight: 600;
         }
 
         /* --- СТАТУС СЕРВЕРА --- */
         .server-status {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
+            justify-content: space-between;
             margin-bottom: 2rem;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
             border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .status-indicator {
-            width: 14px;
-            height: 14px;
+            width: 10px; height: 10px;
             background-color: #ff3333;
             border-radius: 50%;
-            box-shadow: 0 0 12px #ff3333;
+            box-shadow: 0 0 10px #ff3333;
             transition: 0.3s;
         }
 
         .status-indicator.online {
-            background-color: #00ff88;
-            box-shadow: 0 0 15px #00ff88;
+            background-color: #10b981;
+            box-shadow: 0 0 15px #10b981;
         }
 
         .status-text {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         .ip-box {
-            font-family: monospace;
-            background: rgba(217, 70, 239, 0.15);
+            font-family: 'Outfit', monospace;
+            background: rgba(255, 255, 255, 0.05);
             padding: 6px 12px;
             border-radius: 8px;
-            color: #fff;
+            color: var(--text-muted);
             cursor: pointer;
             transition: 0.2s;
-            font-size: 1rem;
-            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            border: 1px solid transparent;
         }
 
         .ip-box:hover {
-            background: rgba(217, 70, 239, 0.25);
-            box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+            color: #fff;
+            border-color: var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .mrpack-info {
-            font-size: 0.85rem;
-            color: #887e9e;
-            margin-bottom: 15px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
             line-height: 1.5;
         }
         
-        .mrpack-info b {
-            color: #d1c4e9;
-        }
+        .mrpack-info b { color: #fff; font-weight: 500; }
 
-        /* --- СЕТКА КНОПОК --- */
+        /* --- КНОПКИ --- */
         .buttons-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
-        .full-width {
-            grid-column: 1 / -1;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
+        .full-width { grid-column: 1 / -1; }
+        .dropdown { position: relative; display: inline-block; width: 100%; }
 
         .btn {
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 20px;
-            border-radius: 12px;
-            font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            padding: 16px;
+            border-radius: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: none;
+            border: 1px solid transparent;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
         }
 
         .btn-primary {
-            background: var(--accent-gradient);
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
             color: #fff;
-            box-shadow: 0 5px 20px rgba(217, 70, 239, 0.3);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
         }
         .btn-primary:hover {
-            box-shadow: 0 8px 25px rgba(217, 70, 239, 0.5);
+            box-shadow: 0 8px 30px rgba(217, 70, 239, 0.6);
             transform: translateY(-2px);
         }
 
-        .btn-discord {
-            background-color: #5865F2;
-            color: #fff;
-            box-shadow: 0 5px 20px rgba(88, 101, 242, 0.2);
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
         }
-        .btn-discord:hover {
-            background-color: #4752C4;
-            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn-stats {
-            background-color: rgba(255, 255, 255, 0.03);
-            color: #fff;
-            border: 1px solid rgba(139, 92, 246, 0.4);
-        }
-        .btn-stats:hover {
-            background-color: rgba(139, 92, 246, 0.1);
-            border-color: #8b5cf6;
-            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn-map {
-            background-color: rgba(255, 255, 255, 0.03);
-            color: #fff;
-            border: 1px solid rgba(217, 70, 239, 0.4);
-        }
-        .btn-map:hover {
-            background-color: rgba(217, 70, 239, 0.1);
-            border-color: var(--accent-color);
-            box-shadow: 0 5px 20px rgba(217, 70, 239, 0.3);
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255,255,255,0.2);
             transform: translateY(-2px);
         }
 
@@ -246,184 +270,153 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 100%; 
-            left: 0;
-            width: 100%;
-            background-color: rgba(15, 10, 22, 0.95);
-            border-radius: 12px;
-            margin-top: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border: 1px solid var(--border-color);
+            top: 100%; left: 0; width: 100%;
+            background: rgba(10, 5, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px;
+            margin-top: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border: 1px solid var(--glass-border);
             overflow: hidden;
             z-index: 10;
         }
 
-        .dropdown-content.show {
-            display: block;
-            animation: fadeIn 0.2s ease;
-        }
+        .dropdown-content.show { display: block; animation: fadeIn 0.2s ease; }
 
         .dropdown-content a {
-            color: #e2d8ee;
-            padding: 15px 16px;
+            color: var(--text-main);
+            padding: 16px;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             transition: 0.2s;
-            font-weight: 600;
+            font-weight: 500;
         }
 
-        .dropdown-content a:last-child {
-            border-bottom: none;
-        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover { background: rgba(255, 255, 255, 0.05); color: var(--accent-secondary); }
 
-        .dropdown-content a:hover {
-            background: rgba(217, 70, 239, 0.15);
-            color: #fff;
-        }
-
-        /* --- МОДАЛЬНОЕ ОКНО --- */
+        /* --- МОДАЛЬНОЕ ОКНО СТАТИСТИКИ --- */
         .modal-overlay {
-            display: none;
-            position: fixed;
+            display: none; position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
             z-index: 100;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s ease;
         }
 
-        .modal-overlay.show {
-            display: flex;
-            opacity: 1;
-        }
+        .modal-overlay.show { display: flex; opacity: 1; }
 
         .modal-content {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
             padding: 2.5rem;
-            width: 90%;
-            max-width: 500px;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
+            width: 90%; max-width: 500px; max-height: 85vh;
+            display: flex; flex-direction: column;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(217, 70, 239, 0.05);
+            box-shadow: var(--glow-shadow);
+            backdrop-filter: blur(24px);
         }
 
         .close-modal {
             position: absolute;
             top: 20px; right: 25px;
-            color: #887e9e;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: 0.2s;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer; transition: 0.2s;
         }
         
-        .close-modal:hover { color: #fff; transform: scale(1.1); }
+        .close-modal:hover { color: #fff; transform: rotate(90deg); }
 
         .modal-content h2 {
+            font-family: 'Outfit', sans-serif;
             color: #fff;
             margin-bottom: 1.5rem;
             text-align: center;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 1.8rem;
         }
 
-        /* --- ПОИСК --- */
+        /* --- ПОИСК (Как на первом референсе) --- */
+        .search-container {
+            margin-bottom: 25px;
+        }
+
+        .search-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
+
         .search-box {
             width: 100%;
             padding: 14px 18px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            border: 1px solid var(--glass-border);
             border-radius: 12px;
             color: #fff;
             font-size: 1rem;
-            margin-bottom: 25px;
             outline: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
         }
 
         .search-box:focus {
-            border-color: var(--accent-color);
-            background: rgba(0, 0, 0, 0.7);
-            box-shadow: 0 0 15px rgba(217, 70, 239, 0.2);
+            border-color: var(--accent-primary);
+            box-shadow: inset 0 0 0 1px var(--accent-primary), 0 0 15px rgba(139, 92, 246, 0.2);
         }
-
-        .search-box::placeholder { color: #6b6382; }
 
         /* --- КАРТОЧКИ СТАТИСТИКИ --- */
         .stats-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px; 
-            overflow-y: auto;
-            padding-right: 10px;
-            max-height: 55vh;
+            display: flex; flex-direction: column; gap: 20px; 
+            overflow-y: auto; padding-right: 10px; max-height: 50vh;
         }
 
-        .stats-list::-webkit-scrollbar { width: 6px; }
-        .stats-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 4px; }
-        .stats-list::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 4px; }
+        .stats-list::-webkit-scrollbar { width: 4px; }
+        .stats-list::-webkit-scrollbar-track { background: transparent; }
+        .stats-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
 
         .stats-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(217, 70, 239, 0.15);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 18px;
-            box-shadow: inset 0 0 20px rgba(217, 70, 239, 0.02);
+            padding: 20px;
         }
 
         .stats-card-title {
-            color: var(--accent-color);
-            font-size: 1.1rem;
-            font-weight: 800;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-shadow: 0 0 10px rgba(217, 70, 239, 0.3);
         }
 
         .stat-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 12px;
-            padding: 8px;
-            border-radius: 10px;
-            transition: background 0.2s;
+            display: flex; align-items: center; gap: 15px;
+            margin-bottom: 15px;
         }
-
-        .stat-row:hover { background: rgba(255,255,255,0.03); }
         .stat-row:last-child { margin-bottom: 0; }
 
         .rank-circle {
-            width: 32px; height: 32px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.95rem; font-weight: 800; color: #fff;
+            width: 24px; font-family: 'Outfit', sans-serif;
+            font-size: 1rem; font-weight: 700; color: var(--text-muted);
+            text-align: center;
         }
 
-        .rank-1 { background: var(--accent-gradient); color: #fff; box-shadow: 0 0 15px rgba(217, 70, 239, 0.5); }
-        .rank-2 { background: rgba(192, 192, 192, 0.2); color: #c0c0c0; }
-        .rank-3 { background: rgba(205, 127, 50, 0.2); color: #cd7f32; }
-        .rank-other { background: rgba(255, 255, 255, 0.05); color: #6b6382; }
+        .rank-1 { color: var(--accent-secondary); text-shadow: 0 0 10px rgba(217, 70, 239, 0.5); }
+        .rank-2 { color: #fff; }
 
-        .player-avatar { width: 40px; height: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .player-info { display: flex; flex-direction: column; }
-        .player-name { color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.5px;}
-        .player-score { color: #a79fc4; font-size: 0.9rem; font-weight: 600;}
+        .player-avatar { width: 42px; height: 42px; border-radius: 10px; }
+        .player-info { display: flex; flex-direction: column; flex-grow: 1; }
+        .player-name { color: #fff; font-weight: 600; font-size: 1.05rem; }
+        .player-score { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px;}
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -431,7 +424,7 @@
         }
 
         @media (max-width: 500px) { 
-            .container { padding: 2rem 1.5rem; } 
+            .container { padding: 2rem 1.5rem; border-radius: 20px;} 
             h1 { font-size: 2.2rem; } 
             .buttons-grid { grid-template-columns: 1fr; }
         }
@@ -439,51 +432,67 @@
 </head>
 <body>
 
+    <!-- Анимированный фон (Небулы) -->
+    <div class="ambient-background">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
+
+    <!-- Текст на заднем плане -->
+    <div class="bg-text">SG1</div>
+
+    <!-- Главная панель -->
     <div class="container" id="main-panel">
         
-        <h1>SERVER <span class="gradient-text">SG1</span></h1>
-        <p class="subtitle">Приватный сервер со сборкой для своих</p>
+        <h1 class="gradient-text">SG1 Server</h1>
+        <p class="subtitle">Welcome to the private SMP experience</p>
         
-        <div class="auth-notice">⚠️ Для входа на сервер нужен аккаунт <b>ely.by</b></div>
+        <div class="auth-notice">⚠️ Требуется аккаунт <b>ely.by</b></div>
 
         <div class="server-status">
-            <div class="status-indicator" id="status-dot"></div>
-            <div class="status-text"><span id="player-count">Загрузка...</span></div>
+            <div class="status-left">
+                <div class="status-indicator" id="status-dot"></div>
+                <div class="status-text" id="player-count">Loading...</div>
+            </div>
             <div class="ip-box" onclick="copyIP()" title="Нажмите, чтобы скопировать">46.228.121.26:25565</div>
         </div>
 
-        <p class="mrpack-info">Формат сборки <b>.mrpack</b> подходит для лаунчеров <b>PrismLauncher</b>, <b>Modrinth</b> и <b>PineconeMC</b>.</p>
+        <p class="mrpack-info">Формат <b>.mrpack</b> (PrismLauncher / Modrinth / PineconeMC)</p>
         
         <div class="buttons-grid">
-            <!-- Скачивание (На всю ширину) -->
+            <!-- Скачивание -->
             <div class="dropdown full-width">
-                <button class="btn btn-primary" onclick="toggleDropdown(event)">📥 Скачать сборку ▼</button>
+                <button class="btn btn-primary" onclick="toggleDropdown(event)">Download Modpack</button>
                 <div class="dropdown-content" id="download-menu">
-                    <a href="https://disk.yandex.ru/d/Pq0oYCFJFQ4kEg" target="_blank">💽 Yandex Disk</a>
-                    <a href="https://drive.google.com/file/d/1QjouDbjR8oP1-ARN4_njUXevgwYY3Bgy/view?usp=sharing" target="_blank">📁 Google Drive</a>
-                    <a href="https://www.mediafire.com/file/jaz9dwaaqrywr37/SMP+1.3.mrpack/file" target="_blank">🔥 MediaFire</a>
+                    <a href="https://disk.yandex.ru/d/Pq0oYCFJFQ4kEg" target="_blank">Yandex Disk</a>
+                    <a href="https://drive.google.com/file/d/1QjouDbjR8oP1-ARN4_njUXevgwYY3Bgy/view?usp=sharing" target="_blank">Google Drive</a>
+                    <a href="https://www.mediafire.com/file/jaz9dwaaqrywr37/SMP+1.3.mrpack/file" target="_blank">MediaFire</a>
                 </div>
             </div>
             
-            <!-- Статистика и Карта (Рядом друг с другом) -->
-            <button class="btn btn-stats" onclick="openStats()">📊 Статистика</button>
-            <a href="http://46.228.121.26:8100/" target="_blank" class="btn btn-map">🗺️ Карта</a>
+            <!-- Доп кнопки -->
+            <button class="btn btn-outline" onclick="openStats()">Statistics</button>
+            <a href="http://46.228.121.26:8100/" target="_blank" class="btn btn-outline">Live Map</a>
             
-            <!-- Дискорд (На всю ширину) -->
-            <a href="https://discord.gg/ua8BZs8S" target="_blank" class="btn btn-discord full-width">💬 Наш Discord</a>
+            <!-- Дискорд -->
+            <a href="https://discord.gg/ua8BZs8S" target="_blank" class="btn btn-outline full-width">Join Discord Community</a>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО СТАТИСТИКИ -->
+    <!-- Модальное окно статистики -->
     <div class="modal-overlay" id="stats-modal" onclick="closeStatsOnOutside(event)">
         <div class="modal-content">
             <span class="close-modal" onclick="closeStats()">✖</span>
-            <h2>Топ игроков</h2>
+            <h2>Leaderboard</h2>
             
-            <input type="text" id="stats-search" class="search-box" placeholder="🔍 Поиск по нику..." oninput="renderStats(this.value)">
+            <div class="search-container">
+                <span class="search-label">Player Name</span>
+                <input type="text" id="stats-search" class="search-box" placeholder="Search..." oninput="renderStats(this.value)">
+            </div>
 
             <div class="stats-list" id="stats-container">
-                <!-- Карточки подгрузятся сюда -->
+                <!-- Карточки подгружаются скриптом -->
             </div>
         </div>
     </div>
@@ -501,23 +510,22 @@
 
                 if (data.online) {
                     dot.classList.add('online');
-                    countText.innerHTML = `Онлайн: ${data.players.online} / ${maxPlayers}`;
+                    countText.innerHTML = `${data.players.online} / ${maxPlayers} Online`;
                 } else {
                     dot.classList.remove('online');
-                    countText.innerHTML = 'Сервер оффлайн';
+                    countText.innerHTML = 'Server Offline';
                 }
             } catch (error) {
-                document.getElementById('player-count').innerHTML = 'Ошибка';
+                document.getElementById('player-count').innerHTML = 'Connection Error';
             }
         }
 
         function copyIP() {
-            const ip = document.querySelector('.ip-box').innerText;
-            navigator.clipboard.writeText(ip).then(() => {
-                const box = document.querySelector('.ip-box');
-                const originalText = box.innerText;
-                box.innerText = 'Скопировано!';
-                setTimeout(() => box.innerText = originalText, 2000);
+            const ipBox = document.querySelector('.ip-box');
+            navigator.clipboard.writeText('46.228.121.26:25565').then(() => {
+                const originalText = ipBox.innerText;
+                ipBox.innerText = 'Copied!';
+                setTimeout(() => ipBox.innerText = originalText, 2000);
             });
         }
 
@@ -538,20 +546,20 @@
         fetchServerStatus();
         setInterval(fetchServerStatus, 60000);
 
-        // --- ДЕМО ДАННЫЕ СТАТИСТИКИ ---
+        // Демо данные для статистики
         const fakeStatsData = {
             time: [
-                { name: "Notch", score: "5 дн., 1 ч" },
-                { name: "Steve", score: "1 дн., 7 ч" },
-                { name: "Alex", score: "1 дн., 4 ч" },
-                { name: "Herobrine", score: "20 ч" },
-                { name: "Jeb_", score: "15 ч" }
+                { name: "Notch", score: "5d 1h" },
+                { name: "Steve", score: "1d 7h" },
+                { name: "Alex", score: "1d 4h" },
+                { name: "Herobrine", score: "20h" },
+                { name: "Jeb_", score: "15h" }
             ],
             blocks: [
-                { name: "Steve", score: "30 897" },
-                { name: "Alex", score: "17 736" },
-                { name: "Notch", score: "11 677" },
-                { name: "Jeb_", score: "8 400" },
+                { name: "Steve", score: "30,897" },
+                { name: "Alex", score: "17,736" },
+                { name: "Notch", score: "11,677" },
+                { name: "Jeb_", score: "8,400" },
                 { name: "Herobrine", score: "666" }
             ]
         };
@@ -584,12 +592,12 @@
                 : fakeStatsData.blocks.slice(0, 3);
 
             if (filteredTime.length === 0 && filteredBlocks.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: #6b6382; font-weight: 600;">Игрок не найден 😔</div>`;
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Player not found</div>`;
                 return;
             }
 
             if (filteredTime.length > 0) {
-                let timeHtml = `<div class="stats-card"><div class="stats-card-title">🏆 Лидеры по времени</div>`;
+                let timeHtml = `<div class="stats-card"><div class="stats-card-title">Playtime Leaders</div>`;
                 filteredTime.forEach((player) => {
                     const realRank = fakeStatsData.time.findIndex(p => p.name === player.name) + 1;
                     const rankClass = realRank <= 3 ? `rank-${realRank}` : `rank-other`;
@@ -609,7 +617,7 @@
             }
 
             if (filteredBlocks.length > 0) {
-                let blocksHtml = `<div class="stats-card"><div class="stats-card-title">⛏️ Лидеры по сломанным блокам</div>`;
+                let blocksHtml = `<div class="stats-card"><div class="stats-card-title">Blocks Broken Leaders</div>`;
                 filteredBlocks.forEach((player) => {
                     const realRank = fakeStatsData.blocks.findIndex(p => p.name === player.name) + 1;
                     const rankClass = realRank <= 3 ? `rank-${realRank}` : `rank-other`;
@@ -620,7 +628,7 @@
                             <img class="player-avatar" src="https://minotar.net/helm/${player.name}/64.png" alt="head">
                             <div class="player-info">
                                 <span class="player-name">${player.name}</span>
-                                <span class="player-score">${player.score} блоков</span>
+                                <span class="player-score">${player.score} blocks</span>
                             </div>
                         </div>`;
                 });
