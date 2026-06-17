@@ -3,411 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SG1 - Animated Edition</title>
+    <title>SG1 - Gargantua Black Hole</title>
     
-    <!-- Подключаем современные шрифты: Outfit для заголовков и Montserrat для текста -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Outfit:wght@300;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Outfit:wght@300;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #05020a;
+            --bg-color: #020005; 
             --text-main: #f8f8f8;
             --text-muted: #a39bb8;
-            --accent-primary: #8b5cf6;
-            --accent-secondary: #d946ef;
-            --glass-bg: rgba(15, 10, 22, 0.5);
+            --glass-bg: rgba(10, 6, 18, 0.4); 
             --glass-border: rgba(255, 255, 255, 0.08);
-            --glow-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body, html {
-            width: 100%;
-            min-height: 100vh;
+            width: 100%; min-height: 100vh;
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- АНИМИРОВАННЫЙ ФОН ИЗ ЛИНИЙ (CANVAS) --- */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -3; /* Самый дальний слой */
-            background: radial-gradient(circle at center, #0a0514 0%, #030106 100%);
+        /* --- 1 СЛОЙ: ОРБИТАЛЬНЫЕ ЧАСТИЦЫ КОСМОСА --- */
+        #vortex-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 1; pointer-events: none;
         }
 
-        /* --- ФОНОВЫЙ ОГРОМНЫЙ ТЕКСТ (NEON OUTLINE) --- */
-        .bg-text {
-            position: fixed;
-            top: 50%; left: 50%;
+        /* --- 2 СЛОЙ: ИДЕАЛЬНАЯ ЧЕРНАЯ ДЫРА (2D ОПТИЧЕСКАЯ ИЛЛЮЗИЯ) --- */
+        .gargantua-system {
+            position: fixed; 
+            top: 40%; /* Смещено чуть вверх над панелью */
+            left: 50%;
+            width: 0; height: 0; /* Центр якоря */
+            z-index: 2; pointer-events: none;
+        }
+
+        /* Фоновое свечение космоса */
+        .bh-aura {
+            position: absolute; top: 0; left: 0;
             transform: translate(-50%, -50%);
-            font-family: 'Outfit', sans-serif;
-            font-weight: 900;
-            font-size: 28vw; /* Сделали еще больше */
-            color: transparent; /* Внутри прозрачный */
-            -webkit-text-stroke: 2px rgba(139, 92, 246, 0.15); /* Неоновая обводка */
-            white-space: nowrap;
-            z-index: -2;
-            pointer-events: none;
-            letter-spacing: -0.05em;
-            animation: pulse-glow 6s infinite alternate ease-in-out;
+            width: clamp(600px, 90vw, 1600px);
+            height: clamp(400px, 60vw, 1000px);
+            background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.15) 0%, rgba(0, 255, 255, 0.05) 40%, transparent 70%);
+            filter: blur(50px); z-index: 1;
         }
 
-        @keyframes pulse-glow {
-            0% { text-shadow: 0 0 20px rgba(139, 92, 246, 0.05); transform: translate(-50%, -50%) scale(1); }
-            100% { text-shadow: 0 0 60px rgba(217, 70, 239, 0.2); transform: translate(-50%, -50%) scale(1.02); }
-        }
-
-        /* --- ГЛАВНАЯ ПАНЕЛЬ (GLASSMORPHISM) --- */
-        .container {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            background: var(--glass-bg);
-            padding: 3.5rem 3rem;
-            border-radius: 24px;
-            box-shadow: var(--glow-shadow), inset 0 0 0 1px var(--glass-border);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            max-width: 480px;
-            width: 100%;
-        }
-
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #fff, #d946ef);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(217, 70, 239, 0.4);
-        }
-
-        p.subtitle {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem; 
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
-
-        /* --- ПЛАШКА ELY.BY --- */
-        .auth-notice {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-main);
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            font-size: 0.85rem;
-            margin-bottom: 2rem;
-            display: inline-block;
-        }
-        
-        .auth-notice b {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        /* --- СТАТУС СЕРВЕРА --- */
-        .server-status {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 12px 20px;
-            border-radius: 14px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .status-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .status-indicator {
-            width: 10px; height: 10px;
-            background-color: #ff3333;
+        /* Линзирование сверху (загиб света за ядром) */
+        .bh-lens-top {
+            position: absolute; top: 0; left: 0;
+            transform: translate(-50%, -100%);
+            width: clamp(250px, 35vw, 600px);
+            height: clamp(100px, 15vw, 250px);
             border-radius: 50%;
-            box-shadow: 0 0 10px #ff3333;
-            transition: 0.3s;
+            border-top: 12px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 -20px 50px rgba(0, 255, 255, 0.6);
+            filter: blur(8px);
+            z-index: 2;
+            animation: plasma-shift 4s infinite alternate ease-in-out;
         }
 
-        .status-indicator.online {
-            background-color: #10b981;
-            box-shadow: 0 0 15px #10b981;
+        /* ЗАДНЕЕ КОЛЬЦО (Эллипс за ядром) */
+        .bh-disk-back {
+            position: absolute; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            width: clamp(500px, 80vw, 1400px);
+            height: clamp(120px, 22vw, 350px);
+            border-radius: 50%;
+            /* Отрисовываем только верх! Никаких разрезов! */
+            border-top: 15px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 -30px 60px rgba(0, 255, 255, 0.8),
+                inset 0 30px 60px rgba(255, 0, 255, 0.5);
+            filter: blur(10px);
+            z-index: 3;
+            animation: plasma-shift 6s infinite alternate-reverse ease-in-out;
         }
 
-        .status-text {
-            font-size: 1rem;
-            font-weight: 500;
+        /* АБСОЛЮТНО ЧЕРНОЕ ЯДРО (Перекрывает заднее кольцо) */
+        .bh-core {
+            position: absolute; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            width: clamp(180px, 25vw, 400px);
+            height: clamp(180px, 25vw, 400px);
+            background: #000;
+            border-radius: 50%;
+            z-index: 4; 
+            box-shadow: 
+                inset 0 0 20px rgba(255, 255, 255, 0.5), /* Тонкое фотонное кольцо */
+                0 -10px 30px rgba(0, 255, 255, 0.5), 
+                0 10px 30px rgba(255, 0, 255, 0.5);
+            animation: core-breathe 3s infinite alternate ease-in-out;
         }
 
-        .ip-box {
-            font-family: 'Outfit', monospace;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 12px;
-            border-radius: 8px;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.9rem;
-            border: 1px solid transparent;
+        /* ПЕРЕДНЕЕ КОЛЬЦО (Эллипс поверх ядра) */
+        /* Слой 1: Широкое пурпурное свечение */
+        .bh-disk-front-magenta {
+            position: absolute; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            width: clamp(500px, 80vw, 1400px);
+            height: clamp(120px, 22vw, 350px);
+            border-radius: 50%;
+            /* Отрисовываем только низ! */
+            border-bottom: 25px solid rgba(255, 0, 255, 0.6);
+            box-shadow: 0 40px 80px rgba(255, 0, 255, 0.8);
+            filter: blur(15px);
+            z-index: 5;
+            animation: plasma-shift 5s infinite alternate ease-in-out;
         }
 
-        .ip-box:hover {
-            color: #fff;
-            border-color: var(--glass-border);
-            background: rgba(255, 255, 255, 0.1);
+        /* Слой 2: Яркое бирюзовое горячее кольцо */
+        .bh-disk-front-cyan {
+            position: absolute; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            width: clamp(470px, 76vw, 1340px);
+            height: clamp(110px, 20vw, 330px);
+            border-radius: 50%;
+            border-bottom: 15px solid rgba(0, 255, 255, 0.9);
+            box-shadow: 0 20px 50px rgba(0, 255, 255, 1);
+            filter: blur(8px);
+            z-index: 6;
+            animation: plasma-shift 4s infinite alternate-reverse ease-in-out;
         }
 
-        .mrpack-info {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
+        /* Слой 3: Ослепительно белое ядро плазмы */
+        .bh-disk-front-white {
+            position: absolute; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            width: clamp(450px, 73vw, 1280px);
+            height: clamp(100px, 18vw, 310px);
+            border-radius: 50%;
+            border-bottom: 6px solid #fff;
+            box-shadow: 0 10px 20px #fff;
+            filter: blur(2px);
+            z-index: 7;
         }
-        
+
+        /* Линзирование снизу (загиб света перед ядром) */
+        .bh-lens-bottom {
+            position: absolute; top: 0; left: 0;
+            transform: translate(-50%, 100%);
+            width: clamp(250px, 35vw, 600px);
+            height: clamp(100px, 15vw, 250px);
+            border-radius: 50%;
+            border-bottom: 12px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(255, 0, 255, 0.6);
+            filter: blur(8px);
+            z-index: 8;
+            animation: plasma-shift 4.5s infinite alternate ease-in-out;
+        }
+
+        /* --- АНИМАЦИИ ДИНАМИКИ --- */
+        @keyframes core-breathe {
+            0% { transform: translate(-50%, -50%) scale(0.98); box-shadow: inset 0 0 15px rgba(255,255,255,0.3), 0 -10px 25px rgba(0,255,255,0.4), 0 10px 25px rgba(255,0,255,0.4); }
+            100% { transform: translate(-50%, -50%) scale(1.02); box-shadow: inset 0 0 25px rgba(255,255,255,0.6), 0 -15px 40px rgba(0,255,255,0.7), 0 15px 40px rgba(255,0,255,0.7); }
+        }
+
+        /* Анимация перетекания плазмы без ломающего 3D */
+        @keyframes plasma-shift {
+            0% { filter: blur(8px) hue-rotate(0deg); opacity: 0.8; }
+            50% { filter: blur(12px) hue-rotate(15deg); opacity: 1; }
+            100% { filter: blur(6px) hue-rotate(-10deg); opacity: 0.9; }
+        }
+
+        /* --- 3 СЛОЙ: ТЕКСТ НА ФОНЕ --- */
+        .bg-text {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Outfit', sans-serif; font-weight: 900;
+            font-size: 26vw; color: transparent; 
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.03); 
+            white-space: nowrap; z-index: 2; pointer-events: none;
+            letter-spacing: -0.05em;
+        }
+
+        /* --- 4 СЛОЙ: ГЛАВНАЯ ПАНЕЛЬ ИНТЕРФЕЙСА --- */
+        .container {
+            position: relative; z-index: 10; text-align: center;
+            background: var(--glass-bg); padding: 3.5rem 3rem;
+            border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 0 1px var(--glass-border);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); 
+            max-width: 480px; width: 100%; transition: transform 0.3s ease;
+            margin-top: 15vh; /* Опущено вниз, чтобы дыра нависала */
+        }
+        .container:hover { transform: translateY(-5px); box-shadow: 0 25px 70px rgba(0, 255, 255, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.3); }
+
+        h1 { font-family: 'Outfit', sans-serif; font-size: 3.2rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: 2px; text-transform: uppercase; }
+        .gradient-text {
+            background: linear-gradient(270deg, #fff, #00ffff, #ff00ff, #fff); background-size: 300% 300%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2); animation: shimmer-text 5s ease infinite;
+        }
+        @keyframes shimmer-text { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        p.subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 2rem; font-weight: 400; letter-spacing: 0.5px; }
+
+        .auth-notice { background: rgba(255, 255, 255, 0.05); color: var(--text-main); padding: 10px 20px; border-radius: 12px; border: 1px solid var(--glass-border); font-size: 0.85rem; margin-bottom: 2rem; display: inline-block; }
+        .auth-notice b { color: #fff; font-weight: 600; }
+
+        .server-status { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; background: rgba(0, 0, 0, 0.6); padding: 12px 20px; border-radius: 14px; border: 1px solid var(--glass-border); box-shadow: inset 0 0 20px rgba(0,0,0,0.5);}
+        .status-left { display: flex; align-items: center; gap: 12px; }
+        .status-indicator { width: 10px; height: 10px; background-color: #ff3333; border-radius: 50%; box-shadow: 0 0 10px #ff3333; transition: 0.3s; }
+        .status-indicator.online { background-color: #00ffff; box-shadow: 0 0 15px #00ffff; }
+        .status-text { font-size: 1rem; font-weight: 600; }
+
+        .ip-box { font-family: 'Outfit', monospace; background: rgba(255, 255, 255, 0.05); padding: 6px 12px; border-radius: 8px; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 0.9rem; border: 1px solid transparent; }
+        .ip-box:hover { color: #fff; border-color: var(--glass-border); background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);}
+
+        .mrpack-info { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
         .mrpack-info b { color: #fff; font-weight: 500; }
 
         /* --- КНОПКИ --- */
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
+        .buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .full-width { grid-column: 1 / -1; }
         .dropdown { position: relative; display: inline-block; width: 100%; }
 
-        .btn {
-            width: 100%;
-            display: flex; align-items: center; justify-content: center;
-            padding: 16px;
-            border-radius: 14px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-        }
+        .btn { width: 100%; display: flex; align-items: center; justify-content: center; padding: 16px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid transparent; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .btn-primary { background: linear-gradient(90deg, #00ffff, #ff00ff); color: #fff; box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2); }
+        .btn-primary:hover { box-shadow: 0 8px 30px rgba(255, 0, 255, 0.5); transform: translateY(-2px); }
+        .btn-outline { background: rgba(255, 255, 255, 0.03); color: var(--text-main); border: 1px solid var(--glass-border); }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.4); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255,255,255,0.05); }
 
-        .btn-primary {
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 8px 30px rgba(217, 70, 239, 0.6);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background: rgba(255, 255, 255, 0.02);
-            color: var(--text-main);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255,255,255,0.05);
-        }
-
-        /* --- ВЫПАДАЮЩЕЕ МЕНЮ --- */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%; left: 0; width: 100%;
-            background: rgba(10, 5, 15, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 14px;
-            margin-top: 8px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-            z-index: 10;
-        }
-
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(5, 2, 10, 0.95); backdrop-filter: blur(20px); border-radius: 14px; margin-top: 8px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); border: 1px solid var(--glass-border); overflow: hidden; z-index: 10; }
         .dropdown-content.show { display: block; animation: fadeIn 0.2s ease; }
-
-        .dropdown-content a {
-            color: var(--text-main);
-            padding: 16px;
-            text-decoration: none;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            transition: 0.2s;
-            font-weight: 500;
-        }
-
+        .dropdown-content a { color: var(--text-main); padding: 16px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); transition: 0.2s; font-weight: 500; }
         .dropdown-content a:last-child { border-bottom: none; }
-        .dropdown-content a:hover { background: rgba(217, 70, 239, 0.15); color: #fff; }
+        .dropdown-content a:hover { background: rgba(0, 255, 255, 0.2); color: #fff; }
 
-        /* --- МОДАЛЬНОЕ ОКНО СТАТИСТИКИ --- */
-        .modal-overlay {
-            display: none; position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
-
+        /* --- МОДАЛЬНОЕ ОКНО --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 100; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.show { display: flex; opacity: 1; }
-
-        .modal-content {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            width: 90%; max-width: 500px; max-height: 85vh;
-            display: flex; flex-direction: column;
-            position: relative;
-            box-shadow: var(--glow-shadow);
-            backdrop-filter: blur(24px);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px; right: 25px;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer; transition: 0.2s;
-        }
-        
+        .modal-content { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; padding: 2.5rem; width: 90%; max-width: 500px; max-height: 85vh; display: flex; flex-direction: column; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.9); backdrop-filter: blur(20px); }
+        .close-modal { position: absolute; top: 20px; right: 25px; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
         .close-modal:hover { color: #fff; transform: rotate(90deg); }
+        .modal-content h2 { font-family: 'Outfit', sans-serif; color: #fff; margin-bottom: 1.5rem; text-align: center; font-weight: 700; font-size: 1.8rem; }
 
-        .modal-content h2 {
-            font-family: 'Outfit', sans-serif;
-            color: #fff;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.8rem;
-        }
-
-        /* --- ПОИСК --- */
         .search-container { margin-bottom: 25px; }
+        .search-label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; margin-left: 5px; }
+        .search-box { width: 100%; padding: 14px 18px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-size: 1rem; outline: none; transition: all 0.3s ease; }
+        .search-box:focus { border-color: var(--accent-cyan); box-shadow: inset 0 0 0 1px var(--accent-cyan), 0 0 15px rgba(0, 255, 255, 0.2); }
 
-        .search-label {
-            display: block; font-size: 0.8rem; color: var(--text-muted);
-            margin-bottom: 8px; margin-left: 5px;
-        }
-
-        .search-box {
-            width: 100%; padding: 14px 18px; background: transparent;
-            border: 1px solid var(--glass-border); border-radius: 12px;
-            color: #fff; font-size: 1rem; outline: none;
-            transition: all 0.3s ease; font-family: 'Montserrat', sans-serif;
-        }
-
-        .search-box:focus {
-            border-color: var(--accent-primary);
-            box-shadow: inset 0 0 0 1px var(--accent-primary), 0 0 15px rgba(139, 92, 246, 0.2);
-        }
-
-        /* --- КАРТОЧКИ СТАТИСТИКИ --- */
-        .stats-list {
-            display: flex; flex-direction: column; gap: 20px; 
-            overflow-y: auto; padding-right: 10px; max-height: 50vh;
-        }
-
+        .stats-list { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 10px; max-height: 50vh; }
         .stats-list::-webkit-scrollbar { width: 4px; }
         .stats-list::-webkit-scrollbar-track { background: transparent; }
         .stats-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
-
-        .stats-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px; padding: 20px;
-        }
-
-        .stats-card-title {
-            color: var(--text-muted); font-size: 0.85rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;
-        }
-
+        .stats-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; }
+        .stats-card-title { color: var(--text-muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
         .stat-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         .stat-row:last-child { margin-bottom: 0; }
-
-        .rank-circle {
-            width: 24px; font-family: 'Outfit', sans-serif;
-            font-size: 1rem; font-weight: 700; color: var(--text-muted);
-            text-align: center;
-        }
-
-        .rank-1 { color: var(--accent-secondary); text-shadow: 0 0 10px rgba(217, 70, 239, 0.5); }
+        .rank-circle { width: 24px; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-muted); text-align: center; }
+        .rank-1 { color: #00ffff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
         .rank-2 { color: #fff; }
-
         .player-avatar { width: 42px; height: 42px; border-radius: 10px; }
         .player-info { display: flex; flex-direction: column; flex-grow: 1; }
         .player-name { color: #fff; font-weight: 600; font-size: 1.05rem; }
         .player-score { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px;}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 500px) { 
-            .container { padding: 2rem 1.5rem; border-radius: 20px;} 
-            h1 { font-size: 2.2rem; } 
-            .bg-text { font-size: 40vw; }
-            .buttons-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 500px) { .container { padding: 2rem 1.5rem; border-radius: 20px; margin-top: 10vh;} h1 { font-size: 2.2rem; } .buttons-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- Анимированный Canvas фон с линиями -->
-    <canvas id="bg-canvas"></canvas>
+    <canvas id="vortex-canvas"></canvas>
 
-    <!-- Текст на заднем плане (Неоновая обводка) -->
     <div class="bg-text">SG1</div>
 
-    <!-- Главная панель -->
-    <div class="container" id="main-panel">
+    <div class="gargantua-system">
         
-        <h1 class="gradient-text">SG1 Server</h1>
-        <p class="subtitle">Welcome to the private SMP experience</p>
+        <div class="bh-aura"></div>
+        
+        <div class="bh-lens-top"></div>
+
+        <div class="bh-disk-back"></div>
+
+        <div class="bh-core"></div>
+
+        <div class="bh-disk-front-magenta"></div>
+        <div class="bh-disk-front-cyan"></div>
+        <div class="bh-disk-front-white"></div>
+
+        <div class="bh-lens-bottom"></div>
+
+    </div>
+
+    <div class="container" id="main-panel">
+        <h1 class="gradient-text">SG1 Сервер</h1>
+        <p class="subtitle">Приватный сервер со сборкой для своих</p>
         
         <div class="auth-notice">⚠️ Требуется аккаунт <b>ely.by</b></div>
 
         <div class="server-status">
             <div class="status-left">
                 <div class="status-indicator" id="status-dot"></div>
-                <div class="status-text" id="player-count">Loading...</div>
+                <div class="status-text" id="player-count">Загрузка...</div>
             </div>
             <div class="ip-box" onclick="copyIP()" title="Нажмите, чтобы скопировать">46.228.121.26:25565</div>
         </div>
@@ -416,7 +310,7 @@
         
         <div class="buttons-grid">
             <div class="dropdown full-width">
-                <button class="btn btn-primary" onclick="toggleDropdown(event)">Download Modpack</button>
+                <button class="btn btn-primary" onclick="toggleDropdown(event)">Скачать сборку ▼</button>
                 <div class="dropdown-content" id="download-menu">
                     <a href="https://disk.yandex.ru/d/Pq0oYCFJFQ4kEg" target="_blank">Yandex Disk</a>
                     <a href="https://drive.google.com/file/d/1QjouDbjR8oP1-ARN4_njUXevgwYY3Bgy/view?usp=sharing" target="_blank">Google Drive</a>
@@ -424,62 +318,62 @@
                 </div>
             </div>
             
-            <button class="btn btn-outline" onclick="openStats()">Statistics</button>
-            <a href="http://46.228.121.26:8100/" target="_blank" class="btn btn-outline">Live Map</a>
+            <button class="btn btn-outline" onclick="openStats()">Статистика</button>
+            <a href="http://46.228.121.26:8100/" target="_blank" class="btn btn-outline">Карта</a>
             
-            <a href="https://discord.gg/ua8BZs8S" target="_blank" class="btn btn-outline full-width">Join Discord Community</a>
+            <a href="https://discord.gg/ua8BZs8S" target="_blank" class="btn btn-outline full-width">Наш Discord</a>
         </div>
     </div>
 
-    <!-- Модальное окно статистики -->
     <div class="modal-overlay" id="stats-modal" onclick="closeStatsOnOutside(event)">
         <div class="modal-content">
             <span class="close-modal" onclick="closeStats()">✖</span>
-            <h2>Leaderboard</h2>
+            <h2>Топ игроков</h2>
             
             <div class="search-container">
-                <span class="search-label">Player Name</span>
-                <input type="text" id="stats-search" class="search-box" placeholder="Search..." oninput="renderStats(this.value)">
+                <span class="search-label">Имя игрока</span>
+                <input type="text" id="stats-search" class="search-box" placeholder="Поиск по нику..." oninput="renderStats(this.value)">
             </div>
 
-            <div class="stats-list" id="stats-container">
-                <!-- Карточки подгружаются скриптом -->
-            </div>
+            <div class="stats-list" id="stats-container"></div>
         </div>
     </div>
 
     <script>
-        // --- АНИМАЦИЯ CANVAS (ЛИНИИ НА ФОНЕ) ---
-        const canvas = document.getElementById('bg-canvas');
+        // --- АНИМАЦИЯ ЧАСТИЦ (СОГЛАСОВАНА С ЦЕНТРОМ ДЫРЫ) ---
+        const canvas = document.getElementById('vortex-canvas');
         const ctx = canvas.getContext('2d');
 
         let particlesArray = [];
-        const colors = ['#8b5cf6', '#d946ef', '#4f46e5'];
+        const colors = ['#00ffff', '#ff00ff', '#ffffff']; 
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', function() {
+        function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             initParticles();
-        });
+        }
+
+        window.addEventListener('resize', resizeCanvas);
 
         class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
+            constructor() { this.reset(); }
+            reset() {
+                this.angle = Math.random() * Math.PI * 2;
+                this.radius = (Math.random() * (canvas.width / 1.5)) + 300; 
+                this.speed = (Math.random() * 0.008) + 0.002;
+                this.pull = (Math.random() * 4) + 1; 
                 this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                // Отскок от краев
-                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
-                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+                this.angle += this.speed;
+                this.radius -= this.pull;
+                
+                if (this.radius < 20) this.reset(); 
+                
+                this.x = canvas.width / 2 + Math.cos(this.angle) * this.radius;
+                // Орбита смещена на 40% высоты экрана (там же, где центр черной дыры)
+                this.y = (canvas.height * 0.40) + Math.sin(this.angle) * this.radius * 0.22; 
             }
             draw() {
                 ctx.fillStyle = this.color;
@@ -491,45 +385,25 @@
 
         function initParticles() {
             particlesArray = [];
-            // Количество частиц зависит от ширины экрана (чтобы не лагало на телефонах)
-            let numberOfParticles = (canvas.width * canvas.height) / 12000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                particlesArray.push(new Particle());
-            }
+            let numberOfParticles = (canvas.width * canvas.height) / 5000;
+            for (let i = 0; i < numberOfParticles; i++) particlesArray.push(new Particle());
         }
 
         function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(2, 0, 5, 0.15)'; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].update();
                 particlesArray[i].draw();
-                
-                // Рисуем линии между близкими частицами
-                for (let j = i; j < particlesArray.length; j++) {
-                    const dx = particlesArray[i].x - particlesArray[j].x;
-                    const dy = particlesArray[i].y - particlesArray[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 120) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = particlesArray[i].color;
-                        // Чем дальше частицы, тем прозрачнее линия
-                        ctx.globalAlpha = 1 - (distance / 120); 
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                        ctx.stroke();
-                        ctx.globalAlpha = 1; // Сбрасываем прозрачность
-                    }
-                }
             }
             requestAnimationFrame(animateParticles);
         }
 
-        initParticles();
+        resizeCanvas();
         animateParticles();
 
-        // --- ЛОГИКА САЙТА (СТАТУС И СТАТИСТИКА) ---
+        // --- ЛОГИКА САЙТА ---
         const serverIP = '46.228.121.26'; 
         const maxPlayers = 100;
 
@@ -542,13 +416,13 @@
 
                 if (data.online) {
                     dot.classList.add('online');
-                    countText.innerHTML = `${data.players.online} / ${maxPlayers} Online`;
+                    countText.innerHTML = `Онлайн: ${data.players.online} / ${maxPlayers}`;
                 } else {
                     dot.classList.remove('online');
-                    countText.innerHTML = 'Server Offline';
+                    countText.innerHTML = 'Сервер оффлайн';
                 }
             } catch (error) {
-                document.getElementById('player-count').innerHTML = 'Connection Error';
+                document.getElementById('player-count').innerHTML = 'Ошибка соединения';
             }
         }
 
@@ -556,7 +430,7 @@
             const ipBox = document.querySelector('.ip-box');
             navigator.clipboard.writeText('46.228.121.26:25565').then(() => {
                 const originalText = ipBox.innerText;
-                ipBox.innerText = 'Copied!';
+                ipBox.innerText = 'Скопировано!';
                 setTimeout(() => ipBox.innerText = originalText, 2000);
             });
         }
@@ -578,21 +452,12 @@
         fetchServerStatus();
         setInterval(fetchServerStatus, 60000);
 
-        // Демо данные для статистики
         const fakeStatsData = {
             time: [
-                { name: "Notch", score: "5d 1h" },
-                { name: "Steve", score: "1d 7h" },
-                { name: "Alex", score: "1d 4h" },
-                { name: "Herobrine", score: "20h" },
-                { name: "Jeb_", score: "15h" }
+                { name: "Notch", score: "5 дн., 1 ч" }, { name: "Steve", score: "1 дн., 7 ч" }, { name: "Alex", score: "1 дн., 4 ч" }, { name: "Herobrine", score: "20 ч" }, { name: "Jeb_", score: "15 ч" }
             ],
             blocks: [
-                { name: "Steve", score: "30,897" },
-                { name: "Alex", score: "17,736" },
-                { name: "Notch", score: "11,677" },
-                { name: "Jeb_", score: "8,400" },
-                { name: "Herobrine", score: "666" }
+                { name: "Steve", score: "30 897" }, { name: "Alex", score: "17 736" }, { name: "Notch", score: "11 677" }, { name: "Jeb_", score: "8 400" }, { name: "Herobrine", score: "666" }
             ]
         };
 
@@ -602,38 +467,27 @@
             renderStats(); 
         }
 
-        function closeStats() {
-            document.getElementById('stats-modal').classList.remove('show');
-        }
-
-        function closeStatsOnOutside(event) {
-            if (event.target === document.getElementById('stats-modal')) closeStats();
-        }
+        function closeStats() { document.getElementById('stats-modal').classList.remove('show'); }
+        function closeStatsOnOutside(event) { if (event.target === document.getElementById('stats-modal')) closeStats(); }
 
         function renderStats(query = '') {
             const container = document.getElementById('stats-container');
             container.innerHTML = ''; 
             const lowerQuery = query.toLowerCase();
 
-            const filteredTime = query 
-                ? fakeStatsData.time.filter(p => p.name.toLowerCase().includes(lowerQuery))
-                : fakeStatsData.time.slice(0, 3);
-                
-            const filteredBlocks = query 
-                ? fakeStatsData.blocks.filter(p => p.name.toLowerCase().includes(lowerQuery))
-                : fakeStatsData.blocks.slice(0, 3);
+            const filteredTime = query ? fakeStatsData.time.filter(p => p.name.toLowerCase().includes(lowerQuery)) : fakeStatsData.time.slice(0, 3);
+            const filteredBlocks = query ? fakeStatsData.blocks.filter(p => p.name.toLowerCase().includes(lowerQuery)) : fakeStatsData.blocks.slice(0, 3);
 
             if (filteredTime.length === 0 && filteredBlocks.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Player not found</div>`;
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Игрок не найден 😔</div>`;
                 return;
             }
 
             if (filteredTime.length > 0) {
-                let timeHtml = `<div class="stats-card"><div class="stats-card-title">Playtime Leaders</div>`;
+                let timeHtml = `<div class="stats-card"><div class="stats-card-title">🏆 Лидеры по времени</div>`;
                 filteredTime.forEach((player) => {
                     const realRank = fakeStatsData.time.findIndex(p => p.name === player.name) + 1;
                     const rankClass = realRank <= 3 ? `rank-${realRank}` : `rank-other`;
-
                     timeHtml += `
                         <div class="stat-row">
                             <div class="rank-circle ${rankClass}">${realRank}</div>
@@ -649,18 +503,17 @@
             }
 
             if (filteredBlocks.length > 0) {
-                let blocksHtml = `<div class="stats-card"><div class="stats-card-title">Blocks Broken Leaders</div>`;
+                let blocksHtml = `<div class="stats-card"><div class="stats-card-title">⛏️ Лидеры по сломанным блокам</div>`;
                 filteredBlocks.forEach((player) => {
                     const realRank = fakeStatsData.blocks.findIndex(p => p.name === player.name) + 1;
                     const rankClass = realRank <= 3 ? `rank-${realRank}` : `rank-other`;
-
                     blocksHtml += `
                         <div class="stat-row">
                             <div class="rank-circle ${rankClass}">${realRank}</div>
                             <img class="player-avatar" src="https://minotar.net/helm/${player.name}/64.png" alt="head">
                             <div class="player-info">
                                 <span class="player-name">${player.name}</span>
-                                <span class="player-score">${player.score} blocks</span>
+                                <span class="player-score">${player.score} блоков</span>
                             </div>
                         </div>`;
                 });
